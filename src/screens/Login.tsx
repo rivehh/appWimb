@@ -1,11 +1,20 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Button } from 'react-native';
 import Constants from 'expo-constants';
 import { createStackNavigator } from '@react-navigation/stack';
+import { StackScreenProps } from '@react-navigation/stack';
 
+type RootStackParamList = {
+  login: undefined;
+  cadastro: undefined;
+  home: undefined;
+  senha: undefined;
+};
+
+type Props = StackScreenProps<RootStackParamList, 'login'>;
 const Stack = createStackNavigator();
 
-export default function Login(){
+export default function Login({ navigation }:Props){
   const [text, setText] = useState('');
   const [isFocused, setIsFocused] = useState(false);
 
@@ -13,10 +22,10 @@ export default function Login(){
   const [isFocused2, setIsFocused2] = useState(false);
   return (
     <View style={styles.container}>
-      
       <Text style={styles.titulo}> WIMB </Text>
-         <Text style={styles.subtitulo}> WHERE IS MY BUS </Text>
-        <TextInput style={styles.campo}
+      <Text style={styles.subtitulo}> WHERE IS MY BUS </Text>
+
+       <TextInput style={styles.campo}
         placeholder={isFocused ? '' : 'Email'}
         value={text}
         onChangeText={setText}
@@ -30,19 +39,23 @@ export default function Login(){
         onFocus={() => setIsFocused2(true)}
         onBlur={() => setIsFocused2(false)}/>
 
-        <TouchableOpacity style={styles.enviar}>
-
+        <TouchableOpacity style={styles.entrar}
+        onPress={() => navigation.navigate('home')}>
         <Text style={styles.textoenviar}> Entrar </Text>
-
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.cadastrar}>
-        
+        <TouchableOpacity style={styles.cadastrar}
+        onPress={() => navigation.navigate('cadastro')}>
         <Text style={styles.textocadastrar}> Cadastrar </Text>
-
         </TouchableOpacity>
-        <Text style={styles.textoinferior}> Esqueci a senha </Text>
-        <Text style={styles.textoinferior}> Continuar sem login </Text>
+
+        <Text style={styles.textoinferior}
+        onPress={() => navigation.navigate('senha')}> 
+        Esqueci a senha </Text>
+
+        <Text style={styles.textoinferior} 
+        onPress={() => navigation.navigate('home')}> 
+        Continuar sem login </Text>
     </View>
   );
 }
@@ -78,14 +91,14 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     fontSize: 15,
     color: 'black',
-    margin: 20,
-    padding: 8,
-    width: '90%',
+    margin: 15,
+    padding: 12,
+    width: '80%',
     alignSelf: 'center',
     elevation: 5
   },
 
-  enviar: {
+  entrar: {
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
@@ -93,7 +106,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderWidth: 1,
     borderColor: 'black',
-    width: '90%',
+    width: '80%',
   },
 
   textoenviar:{
@@ -107,7 +120,7 @@ const styles = StyleSheet.create({
     marginTop: 3,
     padding: 12,
     borderWidth: 0,
-    width: '90%',
+    width: '80%',
     backgroundColor:'#545454',
     marginBottom: 40,
     elevation: 5
@@ -125,7 +138,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline'
   },
   campoTitulo:{
-    marginRight: 10, // Espaçamento entre o texto e o TextInput
+    marginRight: 10,
     textAlign: 'left'
   }
 });
