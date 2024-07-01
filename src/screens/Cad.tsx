@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Button } from 'react-native';
 import Constants from 'expo-constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Feather } from '@expo/vector-icons';
+import { StackScreenProps } from '@react-navigation/stack';
 
-export default function Cad(){
+type RootStackParamList = {
+  login: undefined;
+  cadastro: undefined;
+  home: undefined;
+};
+
+type Props = StackScreenProps<RootStackParamList, 'cadastro'>;
+
+export default function Cad({ navigation }:Props){
   const [text, setText] = useState('');
   const [isFocused, setIsFocused] = useState(false);
 
@@ -19,13 +28,17 @@ export default function Cad(){
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.voltar}>
+
+      <TouchableOpacity style={styles.voltar} 
+      onPress={() => navigation.navigate('login')}>
       <Feather name="arrow-left" style={styles.icon}/>
       </TouchableOpacity>
       <View>
+
       <Text style={styles.titulo}> WIMB </Text>
          <Text style={styles.subtitulo}> WHERE IS MY BUS </Text>
       </View>
+
         <TextInput style={styles.campo}
         placeholder={isFocused ? '' : 'Nome'}
         value={text}
@@ -33,6 +46,7 @@ export default function Cad(){
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}>
         </TextInput>
+
         <TextInput style={styles.campo} 
         placeholder={isFocused2 ? '' : 'Email'}
         value={text2}
@@ -47,7 +61,7 @@ export default function Cad(){
         onChangeText={setText3}
         onFocus={() => setIsFocused3(true)}
         onBlur={() => setIsFocused3(false)}>
-    </TextInput>
+        </TextInput>
 
         <TextInput style={styles.campo}
         placeholder={isFocused4 ? '' : 'Senha'}
@@ -58,7 +72,8 @@ export default function Cad(){
         </TextInput>
         
 
-        <TouchableOpacity style={styles.cadastrar}>
+        <TouchableOpacity style={styles.cadastrar}
+        onPress={() => navigation.navigate('home')}>
 
         <Text style={styles.textocadastrar}> Cadastrar </Text>
 
@@ -100,9 +115,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     fontSize: 15,
     color: 'black',
-    margin: 20,
-    padding: 8,
-    width: '90%',
+    margin: 15,
+    padding: 12,
+    width: '80%',
     alignSelf: 'center',
     elevation: 5
 
@@ -120,7 +135,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderWidth: 1,
     borderColor: 'black',
-    width: '90%',
+    width: '80%',
   },
 
   textocadastrar:{
@@ -143,4 +158,3 @@ const styles = StyleSheet.create({
     fontSize: 30
   }
 });
-
